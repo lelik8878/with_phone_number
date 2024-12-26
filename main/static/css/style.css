@@ -1,0 +1,43 @@
+header {
+    display: flex;
+    height: 100px;
+    width: 100%;
+    background: greenyellow;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+header a input {
+    height: 50px;
+    font-size: 20px;
+}
+
+header a input:hover {
+    background: yellow;
+}
+
+div form {
+    font-size: 20px;
+}
+
+.profile_header {
+    display: flex;
+    gap: 30px;
+    justify-content: space-around;
+}
+
+.main_image-block {}
+
+.welcome_message p {
+    font-size: 20px;
+}
+
+.image_instances {
+    display: flex;
+    gap: 20px;
+}
+
+.home_button {
+    margin: 20px;
+}

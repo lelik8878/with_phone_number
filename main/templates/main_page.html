@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <title>Main</title>
+</head>
+<header>
+    {% if user.is_authenticated %}
+        <h2>Welcome, {{ user.nickname }}, your id is {{ user.phone_number }}</h2>
+        <a href="{% url 'user_profile' user.id %}"><input type="button" value="Profile" class="header_input"></a>
+        <a href="{% url 'log_out' %}"><input type="button" value="Log out" class="header_input"></a>
+    {% else %}
+        <a href="{% url 'user_registration' %}"><input type="button" value="Registration" class="header_input"></a>
+        <a href="{% url 'login_page' %}"><input type="button" value="Log in" class="header_input"></a>
+    {% endif %}
+</header>
+<body>
+
+<div>
+
+</div>
+</body>
+</html>

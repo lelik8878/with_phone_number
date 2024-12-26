@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <title>Profile</title>
+</head>
+<body>
+<h1>User profile</h1>
+<div class="profile_header">
+    <div class="welcome_message">
+        <p>Welcome, {{ current_user.nickname }}</p>
+        <p>Your current ID is {{ current_user.phone_number }}</p>
+        <p>Your last login: {{ current_user.last_login }}</p>
+    </div>
+    <div class="main_image-block">
+        <p>Your main image: </p>
+        <img src="{{ current_user.main_image.url }}" alt="main image">
+    </div>
+    <div>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>{{ form.as_p }}</p>
+            <p>{{error}}</p>
+            <button class="button">
+                Добавить
+            </button>
+        </form>
+    </div>
+</div>
+<div class="image_instances">
+    {% for i in images %}
+    <img src="{{ i.additional_image.url }}" alt="additional_image">
+    {% endfor %}
+</div>
+<a href="{% url 'main_page' %}"><input type="button" value="Home" class="home_button"></a>
+</body>
+</html>

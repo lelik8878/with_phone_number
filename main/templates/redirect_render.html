@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirect render</title>
+</head>
+<body>
+<h1>Redirect render</h1>
+<div>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="">Our input<input type="text" name="our_input"></label>
+        <button>Send</button>
+    </form>
+</div>
+</body>
+</html>

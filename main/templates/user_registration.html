@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" />
+    <title>Title</title>
+</head>
+<body>
+<h2>Registration form</h2>
+<div>
+    <form action="" method="POST">
+        <table>
+            <caption>Регистрация пользователя</caption>
+            {% csrf_token %}
+            {{ form.as_table }}
+        </table>
+        <p>{{error}}</p>
+        <button class="button">
+            Сохранить
+        </button>
+    </form>
+</div>
+<a href="{% url 'main_page' %}"><input type="button" value="Home" class="home_button"></a>
+</body>
+</html>
