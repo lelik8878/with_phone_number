@@ -68,7 +68,9 @@ def get_user_profile(request, user_id):
                 current_user.main_image = new_image.cleaned_data.get('image')
                 current_user.save()
                 print('Rabotal redirect ------------------------')
-                return redirect('user_profile', user_id)
+                return render(request, 'user_profile.html', {'current_user': current_user,
+                                                                                 'form': form,
+                                                                                 'images': image_instances})
             else:
                 pre_new_image = Image(additional_image=new_image.cleaned_data.get('image'),
                                       user=current_user)
