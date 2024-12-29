@@ -14,6 +14,9 @@
         <a href="{% url 'user_profile' user.id %}"><input type="button" value="Profile" class="header_input"></a>
         <a href="{% url 'log_out' %}"><input type="button" value="Log out" class="header_input"></a>
     {% else %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
         <a href="{% url 'user_registration' %}"><input type="button" value="Registration" class="header_input"></a>
         <a href="{% url 'login_page' %}"><input type="button" value="Log in" class="header_input"></a>
     {% endif %}

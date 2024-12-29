@@ -6,6 +6,7 @@ class UserRegistrationForm(forms.Form):
     phone_number = forms.CharField(label="Номер телефона")
     password = forms.CharField(widget=forms.PasswordInput, label="Введите пароль")
     password2 = forms.CharField(widget=forms.PasswordInput, label="Повторить пароль")
+    nickname = forms.CharField(label='Ник')
 
 class LoginForm(forms.Form):
     """Войти по номеру телефона и паролю"""

@@ -31,11 +31,22 @@
         </form>
     </div>
 </div>
+<form action="" method="POST" enctype="multipart/form-data">
 <div class="image_instances">
+    {% csrf_token %}
     {% for i in images %}
-    <img src="{{ i.additional_image.url }}" alt="additional_image">
+        <input type="radio"  name="select_image" value="{{ i.id }}">
+            <img class="image_instances-img" src="{{ i.additional_image.url }}" alt="additional_image">
+        </input>
     {% endfor %}
+
 </div>
+<div class="images_interface">
+    <a href="{% url 'set_as_main_image' %}"><input type="button" value="Set as main" class="header_input"></a>
+    <a href="{% url 'delete_image' %}"><button class="image_button">Delete</button></a>
+    <a href="{% url 'delete_main_image' %}"><input type="button" value="Delete main" class="header_input"></a>
+</div>
+</form>
 <a href="{% url 'main_page' %}"><input type="button" value="Home" class="home_button"></a>
 </body>
 </html>

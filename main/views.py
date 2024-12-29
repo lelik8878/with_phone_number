@@ -1,7 +1,6 @@
 
-
-
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm, LoginForm, ImageForm
 from .models import User, Image
@@ -19,9 +18,12 @@ def user_registration(request):
         if re.match("^((\+375|375)+([0-9]){9})$", request.POST.get('phone_number')):
             if new_user.is_valid():
                 if new_user.cleaned_data.get('password') == new_user.cleaned_data.get('password2'):
+                    if new_user.cleaned_data.get('phone_number').startswith('+'):
+                        new_user.cleaned_data['phone_number'] = new_user.cleaned_data.get('phone_number')[1:]
                     pre_save_user = User(phone_number=new_user.cleaned_data.get('phone_number'))
                     pre_save_user.set_password(new_user.cleaned_data.get('password'))
                     pre_save_user.save()
+                    messages.success(request, f'Account created for {new_user.cleaned_data["phone_number"]}')
                     return redirect('main_page')
                 else:
                     error_value = 'Пароли не совпадают'
@@ -40,6 +42,8 @@ def get_login_page(request):
     if request.method == 'POST':
         pre_login = LoginForm(request.POST)
         if pre_login.is_valid():
+            if pre_login.cleaned_data.get('phone_number').startswith('+'):
+                pre_login.cleaned_data['phone_number'] = pre_login.cleaned_data.get('phone_number')[1:]
             pre_authenticate = authenticate(phone_number=pre_login.cleaned_data.get('phone_number'),
                                             password=pre_login.cleaned_data.get('password'))
             if pre_authenticate is not None:
@@ -90,3 +94,17 @@ def redirect_render(request):
         print(response.__dict__)
         return response
     return render(request, 'redirect_render.html')
+
+def set_as_main_image(request):
+    context = {}
+    return redirect('user_profile', user_id=request.user.id)
+
+def delete_image(request):
+    if request.method == 'POST':
+        print('rabotaet post--------------------------')
+        print(request.FILES)
+    # pre_delete_image = Image.objects.filter(user=request.user)
+    # pre_delete_image.delete()
+    return redirect('user_profile', user_id=request.user.id)
+def delete_main_image(request):
+    return redirect('user_profile', user_id=request.user.id)

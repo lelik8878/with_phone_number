@@ -13,15 +13,19 @@ class CustomUserManager(BaseUserManager):
         return user
 
     def create_superuser(self, phone_number, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        return self.create_user(phone_number, password, **extra_fields)
+        # extra_fields.setdefault('is_staff', True)
+        # extra_fields.setdefault('is_superuser', True)
+        # return self.create_user(phone_number, password, **extra_fields)
+        user = self.model(phone_number=phone_number, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     """Пользователь с идентификацией по номеру телефона"""
     phone_number = models.CharField(max_length=15, unique=True, verbose_name='Номер телефона')
-    nickname = models.CharField(max_length=100, verbose_name='Ник')
+    nickname = models.CharField(max_length=100, verbose_name='Ник', default='Johan')
     main_image = models.ImageField(upload_to='media/', null=True, blank=True,
                                    default='media/no_photo.png', verbose_name='Главное изображение')
     is_active = models.BooleanField(default=True, verbose_name='Активен')

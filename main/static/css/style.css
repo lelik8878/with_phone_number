@@ -29,6 +29,10 @@ div form {
 
 .main_image-block {}
 
+.main_image-block img {
+    max-height: 200px;
+}
+
 .welcome_message p {
     font-size: 20px;
 }
@@ -38,6 +42,38 @@ div form {
     gap: 20px;
 }
 
+.image_instances-img {
+    max-height: 100px;
+}
+
+.images_interface {
+    display: flex;
+    height: 100px;
+    width: 100%;
+    margin: 10px;
+    background: greenyellow;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.images_interface a input {
+    height: 50px;
+    font-size: 20px;
+}
+
+.images_interface a input:hover {
+    background: yellow;
+}
+
+.image_button {
+    height: 50px;
+    font-size: 20px;
+}
+
+.image_button:hover {
+    background: yellow;
+}
 .home_button {
     margin: 20px;
 }
