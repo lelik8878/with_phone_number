@@ -107,4 +107,25 @@ def delete_image(request):
     # pre_delete_image.delete()
     return redirect('user_profile', user_id=request.user.id)
 def delete_main_image(request):
+    pre_delete = User.objects.get(pk=request.user.id)
+    # print(pre_delete.main_image.url)
+    pre_delete.main_image = 'media/no_photo.png'
+    pre_delete.save()
     return redirect('user_profile', user_id=request.user.id)
+
+def get_data_from_form(request):
+    current_user = User.objects.get(id=1)
+    images = Image.objects.filter(user_id=1)
+    if request.method == 'POST':
+        print(request.POST)
+        if request.POST['action'] == 'delete_main_image':
+            pre_delete = User.objects.get(id=1)
+            path_to_delete_img = pre_delete.main_image
+            print(path_to_delete_img)
+            print(type(path_to_delete_img))
+            # pre_delete.main_image = 'media/no_photo.png'
+
+            pre_delete.save()
+            print('Hello, Johan')
+    context = {'current_user': current_user, 'images': images}
+    return render(request, 'get_data_from_form.html', context)

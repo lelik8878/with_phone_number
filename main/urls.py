@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (get_main_page, user_registration, get_user_profile, get_login_page, log_out,
-                    redirect_render,set_as_main_image, delete_image, delete_main_image)
+                    redirect_render,set_as_main_image, delete_image, delete_main_image, get_data_from_form)
 
 urlpatterns = [
     path('', get_main_page, name='main_page'),
@@ -12,4 +12,6 @@ urlpatterns = [
     path('set_as_main_image/', set_as_main_image, name='set_as_main_image'),
     path('delete_image/', delete_image, name='delete_image'),
     path('delete_main_image/', delete_main_image, name='delete_main_image'),
+    path('get_data_from_form/', get_data_from_form, name='get_data_from_form'),
+
 ]

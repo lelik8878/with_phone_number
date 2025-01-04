@@ -42,11 +42,12 @@
 
 </div>
 <div class="images_interface">
-    <a href="{% url 'set_as_main_image' %}"><input type="button" value="Set as main" class="header_input"></a>
+    <a href="{% url 'set_as_main_image' %}"><button class="image_button">Set as main</button></a>
     <a href="{% url 'delete_image' %}"><button class="image_button">Delete</button></a>
     <a href="{% url 'delete_main_image' %}"><input type="button" value="Delete main" class="header_input"></a>
 </div>
 </form>
 <a href="{% url 'main_page' %}"><input type="button" value="Home" class="home_button"></a>
+<script src="{% static 'js/get_img.js' %}"></script>
 </body>
 </html>

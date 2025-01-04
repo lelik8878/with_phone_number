@@ -17,3 +17,6 @@ class ImageForm(forms.Form):
     """Загрузка изображения"""
     image = forms.ImageField(label='Картинка')
 
+class DataFromInputForm(forms.Form):
+    """Тестовый эндоинт для взятия картинки из инпута"""
+    from_input_image = forms.ImageField(label='Картинка')

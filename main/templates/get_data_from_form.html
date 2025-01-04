@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+    <title>From  Form</title>
+</head>
+<body>
+<h1>Code will be here</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    <div><p>Main page</p><img src="{{ current_user.main_image.url }}" alt=""></div>
+    <p>Additional images</p>
+    <div style="display: flex; gap: 10px">
+    {% for i in images %}
+        <div style="border: solid yellow">
+            <label>Действия с картинкой
+                <input type="radio" name="our_images" value="{{ i.id }}">
+                <img src="{{ i.additional_image.url }}" alt="">
+            </label>
+        </div>
+    {% endfor %}
+    </div>
+    <input type="submit" name="action" value="set_as_main">
+    <input type="submit" name="action" value="delete_image">
+    <input type="submit" name="action" value="delete_main_image">
+</form>
+</body>
+</html>
