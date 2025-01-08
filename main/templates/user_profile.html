@@ -19,6 +19,9 @@
     <div class="main_image-block">
         <p>Your main image: </p>
         <img src="{{ current_user.main_image.url }}" alt="main image">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
     </div>
     <div>
         <form action="" method="POST" enctype="multipart/form-data">

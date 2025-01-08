@@ -1,7 +1,9 @@
+import os
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.conf import settings
 from .forms import UserRegistrationForm, LoginForm, ImageForm
 from .models import User, Image
 import re
@@ -68,16 +70,32 @@ def get_user_profile(request, user_id):
     if request.method == 'POST':
         new_image = ImageForm(request.POST, request.FILES)
         if new_image.is_valid():
+            print(new_image.cleaned_data.get('image').name)
+            print(new_image.cleaned_data.get('image').size)
+            print(type(new_image.cleaned_data.get('image')))
             if current_user.main_image == 'media/no_photo.png':
                 current_user.main_image = new_image.cleaned_data.get('image')
                 current_user.save()
-                print('Rabotal redirect ------------------------')
                 return render(request, 'user_profile.html', {'current_user': current_user,
                                                                                  'form': form,
                                                                                  'images': image_instances})
+            if current_user.main_image == 'media/' + new_image.cleaned_data.get('image').name:
+                messages.info(request, 'Файл существует в базе данных')
+                return render(request, 'user_profile.html', {'current_user': current_user,
+                                                             'form': form,
+                                                             'images': image_instances})
             else:
+                check_image = Image.objects.filter(additional_image='media/' + new_image.cleaned_data.get('image').name,
+                                                   user=user_id)
+                print(check_image)
+                if check_image.exists():
+                    messages.info(request, 'Файл существует в базе данных')
+                    return render(request, 'user_profile.html', {'current_user': current_user,
+                                                                 'form': form,
+                                                                 'images': image_instances})
                 pre_new_image = Image(additional_image=new_image.cleaned_data.get('image'),
                                       user=current_user)
+
                 pre_new_image.save()
                 return render(request, 'user_profile.html', {'current_user': current_user,
                                                                                  'form': form,
@@ -119,13 +137,41 @@ def get_data_from_form(request):
     if request.method == 'POST':
         print(request.POST)
         if request.POST['action'] == 'delete_main_image':
-            pre_delete = User.objects.get(id=1)
-            path_to_delete_img = pre_delete.main_image
+            path_to_delete_img = str(current_user.main_image)
+            file_path = os.path.join(settings.MEDIA_ROOT, path_to_delete_img)
             print(path_to_delete_img)
+            print(file_path)
             print(type(path_to_delete_img))
-            # pre_delete.main_image = 'media/no_photo.png'
+            if current_user.main_image == 'media/no_photo.png':
+                messages.info(request, 'Главная картинка не установлена или была удалена')
+                return render(request, 'get_data_from_form.html',
+                      {'current_user': current_user, 'images': images})
+            current_user.main_image = 'media/no_photo.png'
 
-            pre_delete.save()
+            current_user.save()
+            if os.path.isfile(file_path):
+                os.remove(file_path)
             print('Hello, Johan')
+        if request.POST['action'] == 'set_as_main' and 'our_images' in request.POST:
+            new_image = Image.objects.create(additional_image=current_user.main_image,
+                                             user=current_user)
+            current_user.main_image = images.get(pk=request.POST['our_images']).additional_image
+            delete_img = images.get(pk=request.POST['our_images'])
+            delete_img.delete()
+            new_image.save()
+            current_user.save()
+            return render(request, 'get_data_from_form.html',
+                          {'current_user': current_user, 'images': images})
+        if request.POST['action'] == 'delete_image' and 'our_images' in request.POST:
+            path_to_delete_img = str(images.get(pk=request.POST['our_images']).additional_image)
+            file_path = os.path.join(settings.MEDIA_ROOT, path_to_delete_img)
+            delete_img = images.get(pk=request.POST['our_images'])
+            delete_img.delete()
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+            return render(request, 'get_data_from_form.html',
+                          {'current_user': current_user, 'images': images})
+        if request.POST['action'] == 'set_as_main' or 'delete_main_image':
+            messages.info(request,"Для выполнения действия необходимо выбрать картинку")
     context = {'current_user': current_user, 'images': images}
     return render(request, 'get_data_from_form.html', context)

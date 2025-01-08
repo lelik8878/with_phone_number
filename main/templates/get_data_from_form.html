@@ -10,6 +10,9 @@
 <form action="" method="POST">
     {% csrf_token %}
     <div><p>Main page</p><img src="{{ current_user.main_image.url }}" alt=""></div>
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
     <p>Additional images</p>
     <div style="display: flex; gap: 10px">
     {% for i in images %}

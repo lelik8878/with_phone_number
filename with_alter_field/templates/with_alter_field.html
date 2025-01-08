@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alter</title>
+</head>
+<body>
+<h1>Code will be here</h1>
+<div>
+    <h2>main user:</h2>
+    {% for i in main_alter %}
+    <p>{{ i.nickname }}</p>
+    {% endfor %}
+</div>
+<form method="POST">
+    {% csrf_token %}
+    <div>
+        <h2>other users:</h2>
+        {% for i in other_alter %}
+            <p>
+                <label>{{ i.nickname }}<input type="radio" name="other_user" value="{{ i.id }}"></label>
+            </p>
+        {% endfor %}
+    </div>
+    <input type="submit" name="action" value="set_as_main">
+</form>
+</body>
+</html>
